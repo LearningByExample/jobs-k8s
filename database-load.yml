@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: movies-load-run- # the name of our job
+  labels:
+    job-group: movie-load # logical grouping
+spec:  
+  template:
+    metadata:
+      labels:
+        job-group: movie-load # logical grouping
+    spec:
+      containers:
+      - name: database-load-container
+        image: localhost:32000/movie-load:registry
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: db-credentials
+            mountPath: "/etc/db-credentials"
+            readOnly: true
+          - name: download
+            mountPath: "/tmp/download"
+            readOnly: false            
+      restartPolicy: Never
+      volumes:
+        - name: db-credentials
+          secret:
+            secretName: moviesdba.movies-db-cluster.credentials
+        - name : download
+          emptyDir: {}
