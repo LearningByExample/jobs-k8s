@@ -1,3 +1,8 @@
+DROP INDEX IF EXISTS idx_movies_title;
+DROP INDEX IF EXISTS idx_movies_genres;
+DROP INDEX IF EXISTS idx_ratings_movie_id;
+DROP INDEX IF EXISTS idx_ratings_rating;
+
 DROP TABLE IF EXISTS movies;
 CREATE TABLE movies (
   id serial primary key,
@@ -9,7 +14,7 @@ DROP TABLE IF EXISTS ratings;
 CREATE TABLE ratings (
   id serial primary key,
   user_id int not null,
-  movie_id int not null,
+  movie_id int not null REFERENCES movies(id),
   rating float not null,
   created bigint not null
 );
