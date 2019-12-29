@@ -9,4 +9,6 @@ CREATE INDEX idx_movies_genres ON movies (genres);
 CREATE INDEX idx_ratings_movie_id ON ratings (movie_id);
 CREATE INDEX idx_ratings_rating ON ratings (rating);
 
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO moviesuser;
+
 vacuum full;
