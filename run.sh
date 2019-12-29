@@ -2,6 +2,11 @@
 
 set -o errexit
 
-microk8s.kubectl delete jobs --selector=job-group=movie-load
+KUBECMD="kubectl"
+if  [ -x "$(command -v microk8s.kubectl)" ]; then
+  KUBECMD="microk8s.kubectl"
+fi
 
-microk8s.kubectl create -f database-load.yml
+$KUBECMD delete jobs --selector=job-group=movie-load
+
+$KUBECMD create -f database-load.yml
